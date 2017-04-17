@@ -33,21 +33,33 @@ def get_all_stars():
     output.append({'order_id':s['order_id'],'location': s['location'], 'items': s['items']})
   return jsonify({'result' : output})
 
-@app.route('/api/PaloAlto/order/<order_id>', methods=['GET'])
+@app.route('/api/PaloAlto/order/<int:order_id>', methods=['GET'])
 
 def get_one_star(order_id):
-  
   starbucks = mongo.db.orders1
-  s = starbucks.find_one({'order_id' : order_id})
-  print('_____________________________________________')
-  
-  output = {'order_id':s['order_id'],'location': s['location'], 'items': s['items']}
-  if s:
-    return jsonify({'result':output})
-  else:
-    output = "No such name"
+  output = []
+  for s in starbucks.find({"order_id":order_id}):
+    output.append({'order_id':s['order_id'],'location': s['location'], 'items': s['items']})
   return jsonify({'result' : output})
 
+@app.route('/api/PaloAlto/order/<int:order_id>', methods=['PUT'])
+
+def put_star(order_id):
+  starbucks = mongo.db.orders1
+  output = []
+  location = request.json['location']
+  items = []
+  items = request.json['items']
+  star_id = starbucks.update({'order_id':order_id},{"order_id":order_id,"location":request.json['location'],"items":request.json['items']})
+  return "success"
+    
+  
+@app.route('/api/PaloAlto/order/<int:order_id>', methods=['DELETE'])
+
+def delete_star(order_id):
+  starbucks = mongo.db.orders1
+  starbucks.remove({"order_id":order_id})
+  return "success"
 
 
 if __name__ == '__main__':
