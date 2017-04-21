@@ -40,7 +40,7 @@ def checkDbConnection():
         return(False)
     return(True)
   
-@app.route('/api/PaloAlto/order', methods=['POST'])
+@app.route('/api/PaloAlto/orders', methods=['POST'])
 def post_order():
     conn = checkDbConnection()
     print('post')
