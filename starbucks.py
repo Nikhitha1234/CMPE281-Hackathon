@@ -66,7 +66,7 @@ def post_order():
     
     
 @app.route('/api/PaloAlto/orders', methods=['GET'])
-def get_all_stars():
+def get_all_orders():
   print('get all')
   starbucks = mongo.db.orders1
   output = []
@@ -75,7 +75,7 @@ def get_all_stars():
   return jsonify({'result' : output})
 
 @app.route('/api/PaloAlto/order/<int:order_id>', methods=['GET'])
-def get_one_star(order_id):
+def get_one_order(order_id):
     conn = checkDbConnection()
     print('get one')
     if conn == True:
@@ -94,7 +94,7 @@ def get_one_star(order_id):
         return 'DB is down'
 
 @app.route('/api/PaloAlto/order/<int:order_id>', methods=['PUT'])
-def put_star(order_id):
+def put_order(order_id):
   starbucks = mongo.db.orders1
   output = []
   location = request.json['location']
@@ -104,7 +104,7 @@ def put_star(order_id):
   return "success"
 
 @app.route('/api/PaloAlto/order/<int:order_id>', methods=['DELETE'])
-def delete_star(order_id):
+def delete_order(order_id):
   starbucks = mongo.db.orders1
   starbucks.remove({"order_id":order_id})
   return "success"
