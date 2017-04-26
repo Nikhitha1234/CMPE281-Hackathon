@@ -15,6 +15,7 @@ from random import randint
 from flask.globals import request
 app = Flask(__name__)
 
+
 @app.route('/')
 def hello_world():
    return 'Welcome to Starbucks'
@@ -33,6 +34,7 @@ except pymongo.errors.ConnectionFailure as e:
     result['error'] = "Db connection Failed"
     print(e)
 
+//Post Method    
 @app.route('/api/PaloAlto/order/', methods=['POST'])
 def post_order():
   try:
@@ -57,7 +59,7 @@ def post_order():
     result['error'] = "Db connection Failed"
     print(e)
 
-
+// GET method
 @app.route('/api/PaloAlto/order/', methods=['GET'])
 def get_all_stars():
   starbucks = mongo.db.orders1
@@ -73,6 +75,7 @@ def get_one_star(order_id):
     output.append({'order_id':s['order_id'],'location': s['location'],'qty': s['qty'],'name':s['name'],'milk':s['milk'],'size':s['size']})
   return jsonify({'result' : output})
 
+//UPDATE method
 @app.route('/api/PaloAlto/order/<int:order_id>/', methods=['PUT'])
 def put_star(order_id):
   starbucks = mongo.db.orders1
@@ -85,6 +88,7 @@ def put_star(order_id):
   star_id = starbucks.update({'order_id':order_id},{'order_id':s['order_id'],'location': s['location'],'qty': s['qty'],'name':s['name'],'milk':s['milk'],'size':s['size']})
   return "success"
 
+//DELETE method
 @app.route('/api/PaloAlto/order/<int:order_id>/', methods=['DELETE'])
 def delete_star(order_id):
   starbucks = mongo.db.orders1
