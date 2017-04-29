@@ -9,20 +9,20 @@ from flask.globals import request
 app = Flask(__name__)
 
 @app.route('/')
-def hello_world():
+def welcome():
    return 'Welcome to Starbucks'
-class mongo:
-  #Connects to Mongo DB
-  app.config['MONGO_DBNAME'] = 'restdb'
-  app.config['MONGO_URI'] = 'mongodb://54.183.242.172:27017/restdb'
-  uri = 'mongodb://54.183.242.172:27017/Starbucks'
-  mongo = MongoClient(uri)
+#Coapp.config['MONGO_DBNAME'] = 'restdb'
+app.config['MONGO_URI'] = 'mongodb://54.183.242.172:27017/restdb'
+uri = 'mongodb://54.183.242.172:27017/Starbucks'
+mongo = MongoClient(uri)
 
 #Route for POST request
 @app.route('/api/PaloAlto/order/', methods=['POST'])
 def post_order():
-for s in starbucks.find():
-  id = s['order_id']
+  starbucks = mongo.db.testt
+  maxi_id = 0
+  for s in starbucks.find():
+    id = s['order_id']
     if id > maxi_id:
       maxi_id = id
   order_id = maxi_id + 1
@@ -61,8 +61,9 @@ def put_order(order_id):
   name = request.json['name']
   milk = request.json['milk']
   size = request.json['size']
-  star_id = starbucks.update({'order_id':order_id},{'order_id':order_id,'location': location,'qty': qty,'name':name,'milk':milk,'size':size})
+  object_id = starbucks.update({'order_id':order_id},{'order_id':order_id,'location': location,'qty': qty,'name':name,'milk':milk,'size':size})
   for s in starbucks.find({"order_id":order_id}):
+    print("a")
     return jsonify({'order_id':s['order_id'],'location': s['location'],'qty': s['qty'],'name':s['name'],'milk':s['milk'],'size':s['size']})
 
 #Route for DELETE request based on order ID
